@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sam Miller — GIS Portfolio</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --bg2: #161b27;
+    --bg3: #1e2535;
+    --accent: #3a8fd4;
+    --accent2: #2ec4b6;
+    --text: #e8eaf0;
+    --muted: #8b95a8;
+    --border: rgba(255,255,255,0.08);
+    --card-border: rgba(58,143,212,0.25);
+    --radius: 10px;
+    --font: 'Inter', system-ui, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(15,17,23,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    height: 60px;
+  }
+
+  .nav-logo {
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--text);
+    text-transform: uppercase;
+  }
+
+  .nav-logo span { color: var(--accent); }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+  }
+
+  nav ul a {
+    font-size: 0.875rem;
+    color: var(--muted);
+    letter-spacing: 0.03em;
+    transition: color 0.2s;
+  }
+
+  nav ul a:hover { color: var(--text); text-decoration: none; }
+
+  /* HERO */
+  .hero {
+    min-height: 92vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 4rem 2rem;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(58,143,212,0.12) 0%, transparent 70%),
+      var(--bg);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(58,143,212,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(58,143,212,0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+  }
+
+  .hero-inner { position: relative; max-width: 700px; }
+
+  .hero-badge {
+    display: inline-block;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid rgba(58,143,212,0.4);
+    border-radius: 20px;
+    padding: 4px 14px;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero h1 {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  .hero h1 span { color: var(--accent); }
+
+  .hero p {
+    font-size: 1.1rem;
+    color: var(--muted);
+    max-width: 500px;
+    margin: 0 auto 2.5rem;
+  }
+
+  .hero-btns {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0.65rem 1.5rem;
+    border-radius: var(--radius);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+  }
+
+  .btn-primary:hover { background: #2d7ec0; text-decoration: none; }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+  /* SECTIONS */
+  section { padding: 5rem 2rem; }
+
+  .container { max-width: 1000px; margin: 0 auto; }
+
+  .section-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+
+  .section-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.01em;
+  }
+
+  .section-sub {
+    color: var(--muted);
+    font-size: 1rem;
+    max-width: 520px;
+    margin-bottom: 3rem;
+  }
+
+  /* SKILLS */
+  #skills { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+
+  .skills-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .skill-tag {
+    font-size: 0.8rem;
+    padding: 6px 14px;
+    border-radius: 6px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    letter-spacing: 0.02em;
+  }
+
+  /* PORTFOLIO GRID */
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: transform 0.2s, border-color 0.2s;
+    cursor: pointer;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(58,143,212,0.6);
+  }
+
+  .card-img {
+    width: 100%;
+    aspect-ratio: 16/10;
+    background: var(--bg3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    font-size: 0.8rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .card-img .placeholder-text {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .card-img svg { opacity: 0.3; }
+
+  .card-body { padding: 1.25rem; }
+
+  .card-category {
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 0.4rem;
+  }
+
+  .card h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    color: var(--text);
+  }
+
+  .card p {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 0.75rem;
+  }
+
+  .card-tag {
+    font-size: 0.7rem;
+    padding: 3px 8px;
+    background: rgba(58,143,212,0.1);
+    color: var(--accent);
+    border-radius: 4px;
+    border: 1px solid rgba(58,143,212,0.2);
+  }
+
+  /* ABOUT */
+  #about { background: var(--bg2); border-top: 1px solid var(--border); }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .about-text p { color: var(--muted); margin-bottom: 1rem; }
+
+  .about-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .stat-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+  }
+
+  .stat-card .stat-num {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 0.25rem;
+  }
+
+  .stat-card .stat-label {
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  /* CONTACT */
+  .contact-grid {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 0.75rem 1.25rem;
+    color: var(--muted);
+    font-size: 0.9rem;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .contact-item:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+  /* MODAL */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+  }
+
+  .modal-overlay.open { display: flex; }
+
+  .modal {
+    background: var(--bg2);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    max-width: 680px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+  }
+
+  .modal-img {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: var(--bg3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    font-size: 0.85rem;
+    border-radius: 12px 12px 0 0;
+    overflow: hidden;
+  }
+
+  .modal-img img { width: 100%; height: 100%; object-fit: contain; }
+
+  .modal-body { padding: 1.75rem; }
+
+  .modal-close {
+    float: right;
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    font-size: 1.5rem;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+    margin-left: 1rem;
+  }
+
+  .modal-close:hover { color: var(--text); }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem;
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 640px) {
+    nav ul { display: none; }
+    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .about-stats { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Sam <span>Miller</span></div>
+  <ul>
+    <li><a href="#portfolio">Work</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">GIS Portfolio</div>
+    <h1>Mapping the world<br>one layer at a <span>time</span></h1>
+    <p>Spatial analyst and cartographer with a passion for turning geographic data into clear, compelling visuals.</p>
+    <div class="hero-btns">
+      <a href="#portfolio" class="btn btn-primary">View my work</a>
+      <a href="#contact" class="btn btn-outline">Get in touch</a>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portfolio">
+  <div class="container">
+    <p class="section-label">Selected work</p>
+    <h2 class="section-title">Projects</h2>
+    <p class="section-sub">Click any project to learn more. Replace placeholder cards with your own maps and descriptions.</p>
+
+    <div class="portfolio-grid" id="portfolioGrid">
+
+      <!-- CARD 1 -->
+      <div class="card" onclick="openModal(0)">
+        <div class="card-img">
+          <!-- Replace the placeholder below with: <img src="images/your-map.png" alt="Map title"> -->
+          <div class="placeholder-text">
+            <svg width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
+            <span>Add your map image here</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="card-category">Land Use Analysis</p>
+          <h3>Project Title One</h3>
+          <p>Short description of this map project — what data you used, what story it tells, or what problem it solved.</p>
+          <div class="card-tags">
+            <span class="card-tag">ArcGIS Pro</span>
+            <span class="card-tag">Spatial Analysis</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 2 -->
+      <div class="card" onclick="openModal(1)">
+        <div class="card-img">
+          <div class="placeholder-text">
+            <svg width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
+            <span>Add your map image here</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="card-category">Remote Sensing</p>
+          <h3>Project Title Two</h3>
+          <p>Short description of this map project — what data you used, what story it tells, or what problem it solved.</p>
+          <div class="card-tags">
+            <span class="card-tag">QGIS</span>
+            <span class="card-tag">Raster Analysis</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 3 -->
+      <div class="card" onclick="openModal(2)">
+        <div class="card-img">
+          <div class="placeholder-text">
+            <svg width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
+            <span>Add your map image here</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="card-category">Cartography</p>
+          <h3>Project Title Three</h3>
+          <p>Short description of this map project — what data you used, what story it tells, or what problem it solved.</p>
+          <div class="card-tags">
+            <span class="card-tag">Layout Design</span>
+            <span class="card-tag">Adobe Illustrator</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 4 -->
+      <div class="card" onclick="openModal(3)">
+        <div class="card-img">
+          <div class="placeholder-text">
+            <svg width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
+            <span>Add your map image here</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="card-category">Network Analysis</p>
+          <h3>Project Title Four</h3>
+          <p>Short description of this map project — what data you used, what story it tells, or what problem it solved.</p>
+          <div class="card-tags">
+            <span class="card-tag">Python</span>
+            <span class="card-tag">GeoPandas</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 5 -->
+      <div class="card" onclick="openModal(4)">
+        <div class="card-img">
+          <div class="placeholder-text">
+            <svg width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
+            <span>Add your map image here</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="card-category">Demographics</p>
+          <h3>Project Title Five</h3>
+          <p>Short description of this map project — what data you used, what story it tells, or what problem it solved.</p>
+          <div class="card-tags">
+            <span class="card-tag">Census Data</span>
+            <span class="card-tag">Choropleth</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 6 -->
+      <div class="card" onclick="openModal(5)">
+        <div class="card-img">
+          <div class="placeholder-text">
+            <svg width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
+            <span>Add your map image here</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="card-category">Environmental GIS</p>
+          <h3>Project Title Six</h3>
+          <p>Short description of this map project — what data you used, what story it tells, or what problem it solved.</p>
+          <div class="card-tags">
+            <span class="card-tag">NDVI</span>
+            <span class="card-tag">Raster</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="container">
+    <p class="section-label">Toolbox</p>
+    <h2 class="section-title">Skills & Software</h2>
+    <p class="section-sub">Tools and technologies I work with. Edit this list to match your actual skill set.</p>
+    <div class="skills-grid">
+      <span class="skill-tag">ArcGIS Pro</span>
+      <span class="skill-tag">ArcGIS Online</span>
+      <span class="skill-tag">QGIS</span>
+      <span class="skill-tag">StoryMaps</span>
+      <span class="skill-tag">ArcGIS Field Maps</span>
+      <span class="skill-tag">Python (ArcPy)</span>
+      <span class="skill-tag">GeoPandas</span>
+      <span class="skill-tag">R (sf, tmap)</span>
+      <span class="skill-tag">SQL / PostGIS</span>
+      <span class="skill-tag">Remote Sensing</span>
+      <span class="skill-tag">LiDAR Processing</span>
+      <span class="skill-tag">Google Earth Engine</span>
+      <span class="skill-tag">Spatial Statistics</span>
+      <span class="skill-tag">Network Analysis</span>
+      <span class="skill-tag">Cartographic Design</span>
+      <span class="skill-tag">Adobe Illustrator</span>
+      <span class="skill-tag">Field Data Collection</span>
+      <span class="skill-tag">GPS / GNSS</span>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-text">
+        <p class="section-label">About me</p>
+        <h2 class="section-title">Sam Miller</h2>
+        <p>GIS professional with experience in spatial analysis, cartography, and geographic data management. Passionate about using maps to communicate complex information clearly and effectively.</p>
+        <p>Replace this bio with your own background — your degree, concentration, relevant coursework, internships, or what drew you to GIS. Keep it concise: 2–3 short paragraphs is ideal.</p>
+        <p style="margin-top:1.5rem;"><a href="#contact" class="btn btn-outline" style="font-size:0.85rem;">Get in touch →</a></p>
+      </div>
+      <div class="about-stats">
+        <div class="stat-card">
+          <div class="stat-num">6+</div>
+          <div class="stat-label">Projects completed</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">3</div>
+          <div class="stat-label">Years of experience</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">10+</div>
+          <div class="stat-label">Tools & platforms</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">B.S.</div>
+          <div class="stat-label">Geography / GIS</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <p class="section-label">Say hello</p>
+    <h2 class="section-title">Contact</h2>
+    <p class="section-sub" style="margin-bottom:2rem;">Open to opportunities. Update these links with your actual info.</p>
+    <div class="contact-grid">
+      <a href="mailto:your@email.com" class="contact-item">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+        your@email.com
+      </a>
+      <a href="https://linkedin.com/in/yourprofile" target="_blank" class="contact-item">
+        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+        LinkedIn
+      </a>
+      <a href="https://github.com/yourusername" target="_blank" class="contact-item">
+        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+        GitHub
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 Sam Miller · Built with GitHub Pages</p>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOnBg(event)">
+  <div class="modal" id="modal">
+    <div class="modal-img" id="modalImg"></div>
+    <div class="modal-body">
+      <button class="modal-close" onclick="closeModal()">×</button>
+      <p class="card-category" id="modalCat"></p>
+      <h2 id="modalTitle" style="font-size:1.4rem; margin-bottom:0.5rem;"></h2>
+      <p id="modalDesc" style="color:var(--muted); margin-bottom:1rem;"></p>
+      <div id="modalTags" class="card-tags"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const projects = [
+  {
+    title: "Project Title One",
+    category: "Land Use Analysis",
+    desc: "Replace this with a detailed description of your project. Explain the goal, the data sources you used, your methodology, and what insights or conclusions the map reveals. This is your chance to show off your analytical thinking, not just the final product.",
+    tags: ["ArcGIS Pro", "Spatial Analysis"],
+    img: null
+  },
+  {
+    title: "Project Title Two",
+    category: "Remote Sensing",
+    desc: "Replace this with a detailed description of your project. Mention the satellite imagery or sensor data used, any preprocessing steps, and what the analysis revealed.",
+    tags: ["QGIS", "Raster Analysis"],
+    img: null
+  },
+  {
+    title: "Project Title Three",
+    category: "Cartography",
+    desc: "Describe the cartographic choices you made — projection, color scheme, typography, scale. Cartography is design, so explain the decisions.",
+    tags: ["Layout Design", "Adobe Illustrator"],
+    img: null
+  },
+  {
+    title: "Project Title Four",
+    category: "Network Analysis",
+    desc: "Explain what network problem you solved — routing, service areas, accessibility analysis — and the tools or scripts you wrote.",
+    tags: ["Python", "GeoPandas"],
+    img: null
+  },
+  {
+    title: "Project Title Five",
+    category: "Demographics",
+    desc: "Describe the demographic data you visualized, the classification method you used (Jenks, equal interval, etc.), and what story the map tells.",
+    tags: ["Census Data", "Choropleth"],
+    img: null
+  },
+  {
+    title: "Project Title Six",
+    category: "Environmental GIS",
+    desc: "Explain the environmental phenomenon you mapped, how you processed the raster data, and any field validation or ground-truthing you performed.",
+    tags: ["NDVI", "Raster"],
+    img: null
+  }
+];
+
+function openModal(i) {
+  const p = projects[i];
+  const overlay = document.getElementById('modalOverlay');
+  document.getElementById('modalTitle').textContent = p.title;
+  document.getElementById('modalCat').textContent = p.category;
+  document.getElementById('modalDesc').textContent = p.desc;
+  const imgEl = document.getElementById('modalImg');
+  if (p.img) {
+    imgEl.innerHTML = `<img src="${p.img}" alt="${p.title}">`;
+  } else {
+    imgEl.innerHTML = `<span style="color:var(--muted);font-size:0.85rem;">Add your image path to projects[${i}].img in the script</span>`;
+  }
+  const tagsEl = document.getElementById('modalTags');
+  tagsEl.innerHTML = p.tags.map(t => `<span class="card-tag">${t}</span>`).join('');
+  overlay.classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+}
+
+function closeModalOnBg(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
+
+</body>
+</html>
